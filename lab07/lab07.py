@@ -1,5 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
+"""
+    KMeans and DBScan studies
+"""
 
 # In[1]:
 
@@ -10,6 +11,7 @@ from sklearn.cluster import KMeans, DBSCAN
 from sklearn.metrics import silhouette_score
 import pickle
 from sklearn.metrics import confusion_matrix
+import matplotlib.pyplot as plt
 
 
 # In[2]:
@@ -20,6 +22,20 @@ mnist.target= mnist.target.astype(np.uint8)
 X = mnist["data"] 
 y = mnist["target"]
 
+# %%
+def visualise(x: list, y: list, filename: str):
+
+    plt.bar(x, y, color='blue')
+    plt.title('Accuracy')
+    plt.xlabel('Classifiers')
+    plt.ylabel('Accuracy Scores')
+    plt.xticks(rotation=90)  # Rotate x-axis labels vertically
+
+    # Save the plot to a PNG file
+    plt.savefig(filename, bbox_inches='tight')  # Adjust the bounding box to include rotated labels
+
+    # Display the plot
+    plt.show()
 
 # In[3]:
 
@@ -34,13 +50,6 @@ for k in blobs:
 
 for item in wyniki:
     print(item)
-
-
-# In[4]:
-
-
-with open(r"kmeans_sil.pkl", "wb") as output_file:
-     pickle.dump(wyniki, output_file)
 
 
 # In[5]:
