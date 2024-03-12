@@ -51,35 +51,18 @@ for k in blobs:
 for item in wyniki:
     print(item)
 
+visualise(blobs, wyniki, "kmeans_sil_score")
 
 # In[5]:
 
-
+#example confusion matrix
 cmatrix = confusion_matrix(y, kmeans[2].predict(X))
-cmatrix
-
-
-# In[6]:
-
-
-indexes = []
-for row in cmatrix:
-    indexes.append(np.argmax(row))
-print(indexes)
-indexes = list(set(sorted(indexes)))
-print(indexes)
-
-
-# In[7]:
-
-
-with open(r"kmeans_argmax.pkl", "wb") as output_file:
-     pickle.dump(indexes, output_file)
+print(cmatrix)
 
 
 # In[26]:
 
-
+#prepare data for dbscan
 XX = X[:300]
 xodl = [np.inf for x in range(300)]
 
@@ -93,21 +76,14 @@ for index, xx in enumerate(XX):
 
 xodl.sort()
 filter(lambda a: a != 0, xodl)
-wyniki = xodl[:10]
-print(wyniki)
-
-
-# In[28]:
-
-
-with open(r"dist.pkl", "wb") as output_file:
-     pickle.dump(wyniki, output_file)
+values = xodl[:10]
+print(values)
 
 
 # In[31]:
 
 
-s = np.mean(wyniki[:3])
+s = np.mean(values[:3])
 epss = np.arange(s, s+0.1*s, 0.04*s)
 dbscans = []
 for eps in epss:
@@ -124,17 +100,7 @@ wyniki_dbscan = []
 for dbscan in dbscans:
     wyniki_dbscan.append(len(list(set(dbscan.labels_))))
 print(wyniki_dbscan)
-with open(r"dbscan_len.pkl", "wb") as output_file:
-     pickle.dump(wyniki_dbscan, output_file)
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
+visualise(epss, wyniki_dbscan, "dbscan")
 
 
 
